@@ -1,0 +1,597 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-ink: #071426;
+  --color-navy: #0b1930;
+  --color-sapphire: #173f7a;
+  --color-gold: #c8a96b;
+  --color-gold-soft: #e3cc93;
+  --color-ivory: #f7f4ed;
+  --color-silver: #c5cedb;
+  --color-charcoal: #152033;
+  --font-serif: var(--font-display);
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-mono-stack);
+}
+
+:root {
+  /* Font tokens. The next/font variables (--font-cormorant, --font-manrope,
+     --font-plex-mono) are set on <html> in app/layout.tsx. */
+  --font-display: var(--font-cormorant), Georgia, serif;
+  --font-body: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-mono-stack: var(--font-plex-mono), ui-monospace, monospace;
+  --ink: #071426;
+  --navy: #0b1930;
+  --sapphire: #173f7a;
+  --gold: #c8a96b;
+  --gold-soft: #e3cc93;
+  --ivory: #f7f4ed;
+  --silver: #c5cedb;
+  --charcoal: #152033;
+  --text-dark: #152033;
+  --text-muted-light: #596273;
+  --line-dark: rgba(200, 169, 107, 0.22);
+  --line-light: rgba(11, 25, 48, 0.14);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--ivory);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+img,
+svg,
+canvas {
+  max-width: 100%;
+}
+
+:focus-visible {
+  outline: 1px solid var(--gold-soft);
+  outline-offset: 4px;
+}
+
+/* Film grain, kept extremely subtle so it reads as texture, not noise. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: soft-light;
+}
+
+.container-luxe {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 4.2vw, 4.5rem);
+}
+
+.section {
+  position: relative;
+  padding-block: clamp(5rem, 11vw, 10rem);
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  line-height: 1.4;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 2.25rem;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.75;
+}
+
+.eyebrow--plain::before,
+.eyebrow.is-plain::before {
+  display: none;
+}
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.022em;
+  text-wrap: balance;
+}
+
+.font-serif,
+.display,
+.serif {
+  font-family: var(--font-display);
+}
+
+.font-mono-ref {
+  font-family: var(--font-mono-stack);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+}
+
+.prose-luxe {
+  font-size: clamp(1rem, 1.1vw, 1.125rem);
+  line-height: 1.8;
+  color: #c5cedb;
+  max-width: 52ch;
+}
+
+.prose-ink {
+  color: #596273;
+}
+
+.hairline {
+  height: 1px;
+  width: 100%;
+  background: var(--line-dark);
+}
+
+.hairline--light {
+  background: var(--line-light);
+}
+
+.gold-text {
+  color: var(--gold);
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 200;
+  transform: translateY(-200%);
+  background: var(--gold);
+  color: var(--ink);
+  padding: 0.75rem 1.15rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* ---------------- Buttons ---------------- */
+.btn {
+  --btn-bg: transparent;
+  --btn-fg: var(--ivory);
+  --btn-border: rgba(201, 169, 110, 0.5);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  min-height: 3.15rem;
+  padding: 0.85rem 1.6rem;
+  border: 1px solid var(--btn-border);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1;
+  overflow: hidden;
+  transition:
+    background-color 0.45s ease,
+    color 0.45s ease,
+    border-color 0.45s ease,
+    transform 0.45s ease;
+}
+
+.btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.28) 50%,
+    transparent 80%
+  );
+  transform: translateX(-130%);
+  transition: transform 0.75s ease;
+  pointer-events: none;
+}
+
+.btn:hover::after {
+  transform: translateX(130%);
+}
+
+.btn:hover {
+  border-color: var(--gold);
+}
+
+.btn--solid {
+  --btn-bg: var(--gold);
+  --btn-fg: var(--navy);
+  --btn-border: var(--gold);
+}
+
+.btn--solid:hover {
+  --btn-bg: var(--gold-soft);
+  --btn-border: var(--gold-soft);
+}
+
+.btn--ghost:hover {
+  --btn-bg: rgba(201, 169, 110, 0.08);
+  --btn-border: var(--gold);
+}
+
+.btn--dark {
+  --btn-bg: var(--ink);
+  --btn-fg: var(--ivory);
+  --btn-border: var(--ink);
+}
+
+.btn--outline-dark {
+  --btn-fg: var(--ink);
+  --btn-border: rgba(11, 25, 48, 0.28);
+}
+
+.btn--outline-dark:hover {
+  --btn-bg: var(--ink);
+  --btn-fg: var(--ivory);
+  --btn-border: var(--ink);
+}
+
+.btn--sm {
+  min-height: 2.75rem;
+  padding: 0.65rem 1.15rem;
+  font-size: 0.74rem;
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn--loading {
+  pointer-events: none;
+}
+
+.link-underline {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--gold);
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -0.4rem;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0.25);
+  transform-origin: left;
+  opacity: 0.4;
+  transition:
+    transform 0.5s ease,
+    opacity 0.5s ease;
+}
+
+.link-underline:hover::after {
+  transform: scaleX(1);
+  opacity: 1;
+}
+
+/* ---------------- Forms ---------------- */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.field label {
+  font-size: 0.76rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(247, 244, 237, 0.8);
+  font-weight: 500;
+}
+
+.field label .req {
+  color: var(--gold);
+  margin-left: 0.3rem;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  border: 1px solid rgba(247, 246, 242, 0.16);
+  border-radius: 0;
+  background: rgba(247, 246, 242, 0.03);
+  color: var(--ivory);
+  padding: 0.9rem 1rem;
+  font-size: 0.9rem;
+  transition:
+    border-color 0.3s ease,
+    background-color 0.3s ease;
+  appearance: none;
+}
+
+.field select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23c9a96e' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.4rem;
+}
+
+.field select option {
+  background: #0b1930;
+  color: var(--ivory);
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: rgba(247, 246, 242, 0.3);
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: var(--gold);
+  background: rgba(247, 246, 242, 0.05);
+}
+
+.field textarea {
+  min-height: 8.5rem;
+  resize: vertical;
+}
+
+.field [aria-invalid="true"] {
+  border-color: #e08a7c;
+}
+
+.field-error {
+  color: #f0a99d;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.field-hint {
+  color: rgba(197, 206, 219, 0.75);
+  font-size: 0.82rem;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: rgba(197, 206, 219, 0.85);
+}
+
+.checkbox-row input[type="checkbox"] {
+  appearance: none;
+  flex: 0 0 auto;
+  width: 1.05rem;
+  height: 1.05rem;
+  margin-top: 0.15rem;
+  border: 1px solid rgba(201, 169, 110, 0.5);
+  background: transparent;
+  display: grid;
+  place-content: center;
+}
+
+.checkbox-row input[type="checkbox"]::before {
+  content: "";
+  width: 0.55rem;
+  height: 0.3rem;
+  border-left: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  transform: rotate(-45deg) scale(0);
+  transition: transform 0.2s ease;
+}
+
+.checkbox-row input[type="checkbox"]:checked {
+  background: var(--gold);
+  border-color: var(--gold);
+}
+
+.checkbox-row input[type="checkbox"]:checked::before {
+  transform: rotate(-45deg) scale(1);
+}
+
+.checkbox-row a {
+  color: var(--gold);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ---------------- Helpers ---------------- */
+.mask-fade-b {
+  mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
+}
+
+.mask-fade-x {
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+}
+
+.sheen {
+  position: relative;
+  overflow: hidden;
+}
+
+.sheen::before {
+  content: "";
+  position: absolute;
+  inset: -30%;
+  background: radial-gradient(
+    circle at 30% 20%,
+    rgba(255, 255, 255, 0.1),
+    transparent 55%
+  );
+  pointer-events: none;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #061019;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(201, 169, 110, 0.28);
+  border: 2px solid #061019;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(201, 169, 110, 0.55);
+}
+
+/* ---------------- Motion ---------------- */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slow-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -10px, 0);
+  }
+}
+
+@keyframes shine {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+@keyframes scroll-cue {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+    opacity: 0;
+  }
+  35% {
+    transform: scaleY(1);
+    transform-origin: top;
+    opacity: 1;
+  }
+  65% {
+    transform: scaleY(1);
+    transform-origin: bottom;
+    opacity: 1;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+    opacity: 0;
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .btn::after {
+    display: none;
+  }
+}
+
+/* The pinned hero and journey sections opt out of global smooth scrolling
+   only where GSAP has already established its own scrubbing. */
+.gsap-pin-active {
+  overscroll-behavior-y: none;
+}
